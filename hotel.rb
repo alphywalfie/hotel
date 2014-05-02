@@ -3,8 +3,14 @@ require 'sinatra'
 class Room
 	attr_writer :type
 	attr_reader :type
-	def initialize(type)
+	attr_writer :name
+	attr_reader :name
+	attr_writer :available
+	attr_reader :available
+	def initialize(name, type, available)
 	@type = type
+	@name = name
+	@available = available
 	end
 end
 
@@ -21,12 +27,10 @@ get '/rooms' do
 end
 
 get '/reserve' do
-	@name = params[:name]
-	@type = params[:type]
-	@date = params[:available]
 	erb :reserve
 end
 
 get '/confirm' do
+	@room_confirm = Room.new(params[:name], params[:type], params[:available])
 	erb :confirm
 end
